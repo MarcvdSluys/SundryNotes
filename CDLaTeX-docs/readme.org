@@ -1,0 +1,6 @@
+#+title: CDLaTeX-docs
+
+The documentation for CDLaTeX, copied from the code, converted to Orgmode (and with minor additions/changes),
+so that it can easily be turned in e.g. markdown or LaTeX/PDF.  See Carsten Dominik's [[https://staff.fnwi.uva.nl/c.dominik/Tools/cdlatex/][CDLaTeX]] page for the
+code and the [[https://orgmode.org/manual/CDLaTeX-mode.html][Orgmode documentation]] for the sources.
+
