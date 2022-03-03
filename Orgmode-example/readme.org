@@ -1,0 +1,45 @@
+#+title: Org mode example
+
+Example of an Org mode file with exports and configuration for emacs.
+
+* Source file
+
+The source file is the Org mode file (~Orgmode-example.org~).  You can download and open it with emacs, which
+should start ~org-mode~ because of the file extension (~.org~).
+
+From a bash shell, do:
+#+begin_src bash
+  wget https://raw.githubusercontent.com/MarcvdSluys/SundryNotes/master/Orgmode-example/Orgmode-example.org
+  emacs Orgmode-example.org &
+#+end_src
+
+
+* Exports
+
+This directory also contains exported files: HTML, Markdown (~.md~), ODT, PDF, reStructured Text (~.rst~),
+ascii and UTF-8 (both ~.txt~).
+
+
+** Render HTML
+
+The html file is shown in GitHub as source code, but can be shown rendered in a browser through [[https://htmlpreview.github.io/?https://github.com/MarcvdSluys/SundryNotes/blob/master/Orgmode-example/Orgmode-example.html][this link]]
+
+
+* Emacs configuration
+
+Emacs settings are usually in =~/.emacs.d/init.el= (or =~/.emacs=).  My settings for Org mode can be found in
+~init.el~.  You can either copy settings in line by line and see what works, or copy everything in and comment
+out (~;;~) what doesn't work.  It is likely that not all will work at the first go, because some options
+require additional software (e.g. emacs-packages, LaTeX) and I'm too lazy to figure this out.
+
+Alternatively, you can rename this file e.g. ~orgmode.el~ and source it from your ~init.el~ using
+#+begin_src elisp
+  (load "orgmode")
+#+end_src
+
+
+* Links to more info
+1. Page for absolute beginners: https://orgmode.org/worg/org-tutorials/org4beginners.html
+2. Tutorials, with at the top a series of videos where you can see the magic happen:
+   https://orgmode.org/worg/org-tutorials/
+

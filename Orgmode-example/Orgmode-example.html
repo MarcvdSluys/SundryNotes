@@ -1,0 +1,692 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2021-12-16 Thu 20:51 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Org mode example</title>
+<meta name="author" content="Marc van der Sluys" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+</style>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">Org mode example</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org0af023c">1. Key strokes</a></li>
+<li><a href="#org430589d">2. <span class="todo TODO">TODO</span> To do <code>[1/3]</code></a>
+<ul>
+<li><a href="#orgebf4bf2">2.1. <span class="done DONE">DONE</span> What to use Org mode for <code>[8/8]</code></a></li>
+<li><a href="#org72aafb3">2.2. <span class="todo PROGRESS">PROGRESS</span> Add file with simple examples <code>[5/6]</code></a>
+<ul>
+<li><a href="#org024a12c">2.2.1. <span class="done DONE">DONE</span> Text style</a></li>
+<li><a href="#org419ca27">2.2.2. <span class="done DONE">DONE</span> Task lists and headings <code>[33%]</code></a></li>
+<li><a href="#orgf68c04d">2.2.3. <span class="done DONE">DONE</span> Links</a></li>
+<li><a href="#org744a90e">2.2.4. <span class="done DONE">DONE</span> Table/spreadsheet</a></li>
+</ul>
+</li>
+<li><a href="#org5348ccc">2.3. <span class="todo PROGRESS">PROGRESS</span> More advanced examples</a>
+<ul>
+<li><a href="#orgc5822a5">2.3.1. <span class="done DONE">DONE</span> Equations</a></li>
+<li><a href="#org05bf71b">2.3.2. <span class="todo ACTIVE">ACTIVE</span> Code</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0af023c" class="outline-2">
+<h2 id="org0af023c"><span class="section-number-2">1.</span> Key strokes</h2>
+<div class="outline-text-2" id="text-1">
+<ol class="org-ol">
+<li>I use lower-case letter <code>a</code> for the <code>A</code>-key.</li>
+<li>I use upper-case letter <code>C-</code> for the <code>Ctrl</code> key, <code>M-</code> for the Alt (meta) key and <code>S-</code> for the <code>Shift</code> key.
+<ul class="org-ul">
+<li>hence <code>C-c</code> is <code>Ctrl-C</code>, <code>C-c C-c</code> is twice that and <code>C-M-a</code> means simultaneously press <code>Ctrl</code>, <code>Alt</code> and
+<code>A</code>.</li>
+<li>note that you can type e.g. <code>C-c C-x C-l</code> without releasing the <code>Ctrl</code> key (i.e., keep <code>Ctrl</code> pressed
+while typing <code>c x l</code>).</li>
+</ul></li>
+<li><code>ENTER</code>, <code>TAB</code> and <code>ESC</code> are the keys you'd expect.</li>
+<li>Got confused?  Press <code>ESC ESC ESC</code> and you should be good to start typing again.</li>
+<li>See also <a href="http://pub.vandersluys.nl/download/GettingStartedWithEmacs.pdf">http://pub.vandersluys.nl/download/GettingStartedWithEmacs.pdf</a> (in particular section 1.2 and the
+start of 1.3)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org430589d" class="outline-2">
+<h2 id="org430589d"><span class="section-number-2">2.</span> <span class="todo TODO">TODO</span> To do <code>[1/3]</code></h2>
+<div class="outline-text-2" id="text-2">
+</div>
+<div id="outline-container-orgebf4bf2" class="outline-3">
+<h3 id="orgebf4bf2"><span class="section-number-3">2.1.</span> <span class="done DONE">DONE</span> What to use Org mode for <code>[8/8]</code></h3>
+<div class="outline-text-3" id="text-2-1">
+<ol class="org-ol">
+<li class="on"><code>[X]</code> note taking, personal wiki, writing documentation</li>
+<li class="on"><code>[X]</code> the brainstorm phase of a project, paper:
+<ol class="org-ol">
+<li>Overview in Org mode</li>
+<li>then export to LaTeX to finish</li>
+</ol></li>
+<li class="on"><code>[X]</code> clock tasks, projects</li>
+<li class="on"><code>[X]</code> agenda, planning, task lists (TODO/PROGRESS/DONE), issues (OPEN/ASSIGNED/CLOSED), idea lists, &#x2026;</li>
+<li class="on"><code>[X]</code> (internal) links</li>
+<li class="on"><code>[X]</code> tables, simple spreadsheets</li>
+<li class="on"><code>[X]</code> export, publish: plain text (ASCII, UTF-8), html, md, LaTeX/PDF (+Beamer!), odt, reST, &#x2026;</li>
+<li class="on"><code>[X]</code> equations, code</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org72aafb3" class="outline-3">
+<h3 id="org72aafb3"><span class="section-number-3">2.2.</span> <span class="todo PROGRESS">PROGRESS</span> Add file with simple examples <code>[5/6]</code></h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+<div id="outline-container-org024a12c" class="outline-4">
+<h4 id="org024a12c"><span class="section-number-4">2.2.1.</span> <span class="done DONE">DONE</span> Text style</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<ul class="org-ul">
+<li><b>bold</b></li>
+<li><i>italics</i></li>
+<li><span class="underline">underlined</span></li>
+<li><del>strike through</del></li>
+<li><code>code</code> or <code>verbatim</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org419ca27" class="outline-4">
+<h4 id="org419ca27"><span class="section-number-4">2.2.2.</span> <span class="done DONE">DONE</span> Task lists and headings <code>[33%]</code></h4>
+<div class="outline-text-4" id="text-2-2-2">
+<ul class="org-ul">
+<li class="on"><code>[X]</code> see <a href="#org430589d">2</a></li>
+<li class="on"><code>[X]</code> indent:
+<ul class="org-ul">
+<li>put the cursor on an item (e.g. in this list) and press <code>Alt-arrow right/left</code></li>
+<li>same for headers</li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> drag:
+<ul class="org-ul">
+<li>put the cursor on an item and press <code>Alt-arrow up/down</code></li>
+<li>up/down swaps items (with the same indentation and if possible)</li>
+<li>the same for headers (of the same level)</li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> change list symbols:
+<ul class="org-ul">
+<li>put the cursor on an item and press <code>Shift right/left</code></li>
+<li>symbols change between <code>+/-/*/1./1)</code> (<code>*</code> if possible)</li>
+</ul></li>
+<li class="on"><code>[X]</code> (de)select item (radio button):
+<ul class="org-ul">
+<li>put the cursor on the item and press <code>C-c C-c</code></li>
+<li>the number or percentage in the parent header (created by typing <code>[/]</code> or <code>[%]</code>) changes as well</li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> change TODO:
+<ul class="org-ul">
+<li>put the cursor on a header and press <code>Shift right/left</code></li>
+<li>if all subheaders are DONE, the parent header changes from TODO to DONE as well</li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> new item in a list:
+<ul class="org-ul">
+<li><code>Alt-ENTER</code></li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> new header in a document:
+<ul class="org-ul">
+<li><code>Ctrl-ENTER</code></li>
+</ul></li>
+<li class="off"><code>[&#xa0;]</code> Create new list
+<ol class="org-ol">
+<li>Enumerated:
+<ol class="org-ol">
+<li>type <code>1.</code> or <code>1)</code> followed by a space and the description</li>
+<li>press <code>Alt-ENTER</code> for the next item (counts automatically)</li>
+</ol></li>
+<li>Bullets (unnumbered):
+<ol class="org-ol">
+<li>type a <code>+</code>, <code>-</code> or (if subitem) <code>*</code> followed by a space and the description</li>
+<li>press <code>Alt-ENTER</code> for the next item with the same symbol</li>
+</ol></li>
+<li>Definition:
+<dl class="org-dl">
+<dt>Definition</dt><dd>a definition is an <b>unnumbered</b> item with a keyword, followed by a double colon (<code>::</code>)
+and the definition.</dd>
+<dt>(no term)</dt><dd><code>Alt-ENTER</code> asks for the next definition with the same symbol</dd>
+</dl></li>
+<li>Check box/Radio button:
+<ol class="org-ol">
+<li>type an item symbol or number, followed by a space, <code>[ ]</code>, another space and the description</li>
+<li>the <code>[ ]</code> lights up to show that the check box is active</li>
+<li><code>Alt-ENTER</code> produces a new item, but <b>no</b> empty check box (bug?)</li>
+<li><code>C-c C-c</code> on the line toggles between <code>[ ]</code> and <code>[X]</code></li>
+</ol></li>
+</ol></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf68c04d" class="outline-4">
+<h4 id="orgf68c04d"><span class="section-number-4">2.2.3.</span> <span class="done DONE">DONE</span> Links</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<ul class="org-ul">
+<li>Internal link: see <a href="#org430589d">2</a></li>
+<li>External link: <a href="https://github.com/MarcvdSluys/">https://github.com/MarcvdSluys/</a></li>
+<li>External link with description: <a href="https://github.com/MarcvdSluys/">My GitHub page</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org744a90e" class="outline-4">
+<h4 id="org744a90e"><span class="section-number-4">2.2.4.</span> <span class="done DONE">DONE</span> Table/spreadsheet</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<ol class="org-ol">
+<li>type <code>|- TAB</code> for a horizontal line</li>
+<li>type <code>x|x^2|x^3 TAB</code> in the new line for the header</li>
+<li>type <code>-</code> right against the <code>|</code> for another line</li>
+<li>in the left column, type <code>1 ENTER 2 ENTER</code> etc.</li>
+<li>under x<sup>2</sup>, type <code>=$1**2 TAB</code>.  <code>$1</code> represents column 1.</li>
+<li>under x<sup>3</sup>, type <code>=$1**3 TAB</code></li>
+<li>go to the line with <code>TBLFM</code> (table formula) under the table and press <code>C-c C-c</code></li>
+</ol>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">x</th>
+<th scope="col" class="org-right">x<sup>2</sup></th>
+<th scope="col" class="org-right">x<sup>3</sup></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-right">4</td>
+<td class="org-right">8</td>
+</tr>
+
+<tr>
+<td class="org-right">3</td>
+<td class="org-right">9</td>
+<td class="org-right">27</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-right">16</td>
+<td class="org-right">64</td>
+</tr>
+
+<tr>
+<td class="org-right">5</td>
+<td class="org-right">25</td>
+<td class="org-right">125</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org5348ccc" class="outline-3">
+<h3 id="org5348ccc"><span class="section-number-3">2.3.</span> <span class="todo PROGRESS">PROGRESS</span> More advanced examples</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+<div id="outline-container-orgc5822a5" class="outline-4">
+<h4 id="orgc5822a5"><span class="section-number-4">2.3.1.</span> <span class="done DONE">DONE</span> Equations</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+LaTeX must be installed to display formatted equations in emacs.
+</p>
+
+<ol class="org-ol">
+<li>Lazy symbols outside equations using inline \LaTeX, like &int;, &infin; and &nabla;<sub>&phi;</sub> will show up nicely
+in \LaTeX.</li>
+
+<li>inline: type <code>$\int_0^\infty \frac{\sin x}{x} dx$</code> and press <code>C-c C-x C-l</code> to display in emacs.
+This is a nice equation \(\int_0^\infty \frac{\sin x}{x} dx\), but complicated.</li>
+
+<li>between the lines: type <code>\[\int_0^\infty \frac{\sin x}{x} dx\]</code> and press <code>C-c C-x C-l</code> to display in
+emacs.
+\[\int_0^\infty \frac{\sin x}{x} dx\]</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org05bf71b" class="outline-4">
+<h4 id="org05bf71b"><span class="section-number-4">2.3.2.</span> <span class="todo ACTIVE">ACTIVE</span> Code</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li>Elisp always works?</li>
+</ul>
+</div>
+
+<ol class="org-ol">
+<li><a id="org602997a"></a>Elisp (emacs lisp script)<br />
+<div class="outline-text-5" id="text-2-3-2-1">
+<ol class="org-ol">
+<li>press <code>C-c C-, s</code> for a <code>#+begin/end_src</code>-block and add <code>elisp</code> yourself</li>
+<li>type some code and return a value (see example below)</li>
+<li>in the code block, press <code>C-c C-c</code> and answer the question in the minibuffer below with <code>yes ENTER</code></li>
+<li>the result appears in a <code>RESULTS</code> block under the code, a bit like in a Jupyter notebook.</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-elisp">(concat  (emacs-version)
+         <span style="color: #ffa07a;">"\nOrgmode "</span> (org-version))  
+</pre>
+</div>
+
+<pre class="example">
+GNU Emacs 27.2 (build 1, x86_64-pc-linux-gnu, GTK+ Version 3.24.29, cairo version 1.16.0)
+ of 2021-10-01
+Orgmode N/A
+</pre>
+</div>
+</li>
+
+<li><a id="orgdc62aa5"></a>Bash<br />
+<div class="outline-text-5" id="text-2-3-2-2">
+<p>
+Bash must be installed and Babel must be activated for Bash&#x2026;
+</p>
+<div class="org-src-container">
+<pre class="src src-bash"><span style="color: #b0c4de;">echo</span> <span style="color: #ffa07a;">"My home directory is $HOME"</span>
+</pre>
+</div>
+
+<pre class="example">
+My home directory is /home/sluys
+</pre>
+</div>
+</li>
+
+<li><a id="org022a56b"></a>Python<br />
+<div class="outline-text-5" id="text-2-3-2-3">
+<p>
+Python must be installed and Babel must be activated for Python&#x2026;
+</p>
+
+<ol class="org-ol">
+<li>press <code>C-c C-, s</code> for a <code>#+begin/end_src</code>-block and type <code>python</code> yourself</li>
+<li>type some code and return a value</li>
+<li>In the code block, press <code>C-c C-c</code> and answer the question in the minibuffer below with <code>yes ENTER</code></li>
+<li>the return value appears below the code in a <code>RESULTS</code> block</li>
+</ol>
+<div class="org-src-container">
+<pre class="src src-python" id="org75a3eb5"><span style="color: #eedd82;">x</span>=3
+<span style="color: #eedd82;">y</span>=5
+<span style="color: #eedd82;">z</span>=x*y
+<span style="color: #00ffff;">return</span> z
+</pre>
+</div>
+
+<pre class="example">
+15
+</pre>
+
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00ffff;">import</span> numpy <span style="color: #00ffff;">as</span> np
+<span style="color: #00ffff;">import</span> matplotlib.pyplot <span style="color: #00ffff;">as</span> plt
+<span style="color: #eedd82;">x</span> = np.linspace(-15,15)
+plt.plot(x, np.sin(x)/x)
+plt.savefig(<span style="color: #ffa07a;">'Orgmode-example.png'</span>)
+<span style="color: #00ffff;">return</span> <span style="color: #ffa07a;">'Orgmode-example.png'</span>  <span style="color: #ff7f24;"># </span><span style="color: #ff7f24;">Return filename to Org mode</span>
+</pre>
+</div>
+
+
+<div id="orge3ba33e" class="figure">
+<p><img src="Orgmode-example.png" alt="Orgmode-example.png" />
+</p>
+</div>
+</div>
+</li>
+
+<li><a id="orgf60581b"></a>Python + Bash<br />
+<div class="outline-text-5" id="text-2-3-2-4">
+<ul class="org-ul">
+<li>Nicked from <a href="https://jherrlin.github.io/posts/emacs-orgmode-source-code-blocks/">https://jherrlin.github.io/posts/emacs-orgmode-source-code-blocks/</a></li>
+</ul>
+
+<p>
+Print a list with a selection of files in the current directory in bash.  I will export both (<code>both</code>) the code
+and the result (to e.g. <code>.md</code> or <code>.pdf</code>).  Also, I will give the code a name (<code>ls</code>) so that the
+output can be used later:
+</p>
+<div class="org-src-container">
+<pre class="src src-bash" id="org33ef7b0">ls -lb Orgmode-example.*
+</pre>
+</div>
+
+<pre class="example">
+-rw-r--r-- 1 sluys sluys   9465 Dec 16 20:49 Orgmode-example.md
+-rw-r--r-- 1 sluys sluys  37446 Dec 16 20:50 Orgmode-example.odt
+-rw-r--r-- 1 sluys sluys   7945 Dec 16 20:50 Orgmode-example.org
+-rw-r--r-- 1 sluys sluys 321341 Dec 16 20:49 Orgmode-example.pdf
+-rw-r--r-- 1 sluys sluys  23293 Dec 16 20:51 Orgmode-example.png
+-rw-r--r-- 1 sluys sluys  10015 Dec 16 20:50 Orgmode-example.rst
+-rw-r--r-- 1 sluys sluys  12381 Dec 16 20:49 Orgmode-example.tex
+-rw-r--r-- 1 sluys sluys   9330 Dec 16 20:51 Orgmode-example.txt
+</pre>
+
+
+<p>
+Use <code>awk</code> to take the file names and sizes from <code>ls</code> and create a table:
+</p>
+<div class="org-src-container">
+<pre class="src src-awk" id="org35b7207"><span style="color: #00ffff;">BEGIN</span> { <span style="color: #eedd82;">OFS</span>=<span style="color: #ffa07a;">"|"</span> }; { <span style="color: #b0c4de;">print</span> $5, $9}
+</pre>
+</div>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-right">9465</td>
+<td class="org-left">Orgmode<sub>example.md</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">37446</td>
+<td class="org-left">Orgmode<sub>example.odt</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">7945</td>
+<td class="org-left">Orgmode<sub>example.org</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">321341</td>
+<td class="org-left">Orgmode<sub>example.pdf</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">23293</td>
+<td class="org-left">Orgmode<sub>example.png</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">10015</td>
+<td class="org-left">Orgmode<sub>example.rst</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">12381</td>
+<td class="org-left">Orgmode<sub>example.tex</sub></td>
+</tr>
+
+<tr>
+<td class="org-right">9330</td>
+<td class="org-left">Orgmode<sub>example.txt</sub></td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Use Python to o.a. find the smallest and largest file in the table from <code>awk</code>:
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #00ffff;">print</span>(table[0])                     <span style="color: #ff7f24;"># </span><span style="color: #ff7f24;">First row of the table as read</span>
+<span style="color: #00ffff;">print</span>(<span style="color: #ffa07a;">"Number of files: %i"</span>         % <span style="color: #b0c4de;">len</span>(table))
+<span style="color: #00ffff;">print</span>(<span style="color: #ffa07a;">"Smallest file:   (%i b) %s"</span>  % <span style="color: #b0c4de;">tuple</span>(<span style="color: #b0c4de;">min</span>(table)))
+<span style="color: #00ffff;">print</span>(<span style="color: #ffa07a;">"Largest file:    (%i b) %s"</span>  % <span style="color: #b0c4de;">tuple</span>(<span style="color: #b0c4de;">max</span>(table)))
+<span style="color: #00ffff;">print</span>(<span style="color: #ffa07a;">"Total size:      %0.3f kb"</span>   % (<span style="color: #b0c4de;">sum</span>([x <span style="color: #00ffff;">for</span> x,y <span style="color: #00ffff;">in</span> table]) / 1000))
+</pre>
+</div>
+
+<pre class="example">
+[9465, 'Orgmode-example.md']
+Number of files: 8
+Smallest file:   (7945 b) Orgmode-example.org
+Largest file:    (321341 b) Orgmode-example.pdf
+Total size:      431.216 kb
+</pre>
+</div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Marc van der Sluys</p>
+<p class="date">Created: 2021-12-16 Thu 20:51</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
