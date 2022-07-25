@@ -1,0 +1,252 @@
+#+title:  How to get MBsync to work with GMail and OAuth2
+#+date:   [2022-07-25 Mon]
+
+Since June 2022, OAuth2 is required to access GMail through [[http://isync.sourceforge.net/][MBsync]].  Here is how I achieved that (leaving out
+the unsuccesful trials and errors).  The steps below worked on [2022-07-25 Mon] and are as follows:
+
+1) Establish that syncing email no longer works
+2) Ensure that MBsync/Isync is compiled with support for SASL
+3) Get Google OAuth 2.0 credentials
+4) Generate a Google access token and refresh token using sasl-oauth2-tool
+5) Regenerate your access token using the refresh token using Python
+6) Tell MBsync to use the Python script to obtain the password
+
+   
+* Establish that syncing email no longer works
+#+begin_src bash
+  $ mbsync -qV GMail
+  
+  Reading configuration file /home/$USER/.mbsyncrc
+  Channel GMail
+  Opening far side store GMail-remote...
+  Resolving imap.gmail.com... ok
+  Connecting to imap.gmail.com (173.194.79.108:993)... 
+  Opening near side store GMail-local...
+  Connection is now encrypted
+  Logging in...
+  IMAP command 'LOGIN <user> <pass>' returned an error: NO [AUTHENTICATIONFAILED] Invalid credentials (Failure)
+#+end_src
++ Replace ~GMail~ with the name of your GMail ~IMAPAccount~ entry in =~/.mbsyncrc=
+
+* Ensure that MBsync/Isync is compiled with support for SASL
++ E.g. in Gentoo Linux: ~USE=sasl emerge net-mail/isync~  # uses dev-libs/cyrus-sasl
++ This should bring us one step closer:
+  #+begin_src bash
+    $ mbsync -qV GMail
+  
+    Reading configuration file /home/$USER/.mbsyncrc
+    Channel GMail
+    Opening far side store GMail-remote...
+    Resolving imap.gmail.com... ok
+    Connecting to imap.gmail.com (74.125.143.109:993)... 
+    Opening near side store GMail-local...
+    Connection is now encrypted
+    Logging in...
+    [SASL-XOAUTH2] - Requesting authID![SASL-XOAUTH2] - Requesting token
+    ![SASL-XOAUTH2] - filling prompts
+    !Authenticating with SASL mechanism XOAUTH2...
+    [SASL-XOAUTH2] - Requesting authID![SASL-XOAUTH2] - Requesting token
+    !Error: IMAP wants more steps despite successful SASL authentication.
+  
+    <hangs>
+  #+end_src
++ ~Ctrl-C~
+  
+* Get Google OAuth 2.0 credentials
++ Note: the steps below seem to vary in order or exact name, perhaps because of some half wizard that tries to
+  help you sometimes...
+  
+** Login to Google
+1) Point your browser at https://console.cloud.google.com/apis/credentials/oauthclient
+2) Login to your Google account if needed
+   
+** Create a new project
+If you haven't got one yet or would like to use a new one for this app
+
+1) In *blue bar*, top left, to right of "Google Cloud", click *Select a project* or the name of a current project,
+   or click the button *Create project* on the right
+2) Click *New project* (when using Select a project)
+3) Fill out:
+   1. *Project name:* e.g. MBsync-GMail
+   2. *Location:* No organisation
+   3. Click *Create*
+4) You can skip /Secure now/ if it pops up
+5) Ensure that the new project is selected in the *blue bar* at the top
+   
+** Configure OAuth consent screen
+1) Click *OAuth consent screen* (menu at the left) (or click the /Configure consent screen/ button at the right)
+   1. User type: *External*
+   2. Click *Create*
+2) Edit app registration screen:
+   1. Step 1: *OAuth consent* screen:
+      1. *App name:* e.g. MBsync-Gmail
+      2. *User support email:* your GMail address
+      3. Ignore the app logo (unless you can't)
+      4. Ignore the domain stuff
+      5. *Developer contact:* your GMail address (assuming this is for private use)
+      6. *Save and continue*
+   2. Step 2: *Scopes:*
+      1. Ignore - Click *Save and continue*
+   3. Step 3: *Test users:*
+      1. Click *Add users*
+      2. Type your Gmail address to give yourself access
+         + check whether your address is in the test list afterwards
+         + this may be the case even if an error message appears here
+      3. Click *Add* (twice?)
+      4. Your email address should be in the list of test users
+      5. Click *Save and continue*
+         + I got a pop-up here warning about my email address being unusable, but it's in the list and it
+           works...
+3) Click *Back to dashboard*
+               
+** Create credentials
+1. Click *Credentials* in the menu on the left
+2. Click *+ Create credentials* near the top
+3. Click *OAuth client ID*
+4. Application type: *Desktop app*
+5. *Name:*  e.g. MBsync-GMail
+6. Click *Create*
+7. This creates a *Client ID* and *Client secret*, which we will need below
+   + Client ID looks like ~<long number>-<long string>.apps.googleusercontent.com~
+   + Client secret looks like ~<shorter string>--<longer string>~
+
+* Generate a Google access token and refresh token using sasl-oauth2-tool
+** Download ~sasl-xoauth2-tool~
+Download ~sasl-xoauth2-tool~ from https://github.com/tarickb/sasl-xoauth2 and make it executable
++ e.g.
+  #+begin_src bash
+    wget https://raw.githubusercontent.com/tarickb/sasl-xoauth2/master/scripts/sasl-xoauth2-tool
+    chmod u+x sasl-xoauth2-tool
+  #+end_src
+     
+** Run ~sasl-xoauth2-tool~
+#+begin_src bash
+  sasl-xoauth2-tool  get-token \
+      --client-id <client id>  --client-secret <client secret> \
+      --scope https://mail.google.com/ gmail
+#+end_src
+
++ This returns an url:
+  1. Open the url in your browser,
+  2. Choose an account or log in
+  3. Continue even though Google hasn't verified the app
+  4. Continue to grant access
+  5. Close the browser window
+  6. Go back to your terminal
+
+** Note the access token and refresh token
+~sasl-xoauth2-tool~ should now have returned:
+
+1. ~access_token~   (very long string)
+2. ~expires_in~     (3599s = 1 hour)
+3. ~refresh_token~  (long string starting with ~1//~)
+4. ~scope~
+5. ~token_type~
+      
+** Test whether mbsync works
+Use the access token as password in =~/.mbsyncrc=:
+1) in =~/.mbsyncrc=, set:
+  #+begin_src conf
+    IMAPAccount GMail
+    Host imap.gmail.com
+    User <my name>@gmail.com
+    Pass "<access token from sasl-xoauth2-tool>"
+    ...
+  #+end_src
+
+2) Then run ~mbsync~ again:
+  #+begin_src bash
+    $ mbsync -qV GMail
+
+    Reading configuration file /home/$USER/.mbsyncrc
+    Channel GMail
+    Opening far side store GMail-remote...
+    Resolving imap.gmail.com... ok
+    Connecting to imap.gmail.com (142.250.145.108:993)... 
+    Opening near side store GMail-local...
+    Connection is now encrypted
+    Logging in...
+    [SASL-XOAUTH2] - Requesting authID!
+    [SASL-XOAUTH2] - Requesting token!
+    [SASL-XOAUTH2] - filling prompts!
+    Authenticating with SASL mechanism XOAUTH2...
+    [SASL-XOAUTH2] - Requesting authID!
+    [SASL-XOAUTH2] - Requesting token!
+    Opening far side box INBOX...
+    Opening near side box INBOX...
+    Loading far side box...
+    Loading near side box...
+    near side: 4 messages, 4 recent
+    far side: 24 messages, 0 recent
+    Synchronizing...  
+  #+end_src
+3) This should work without error.  If not, check the steps above.
+4) However, the *access token* is only valid for one hour.  We need to regenerate it from the *refresh token*
+   every time we run ~mbsync~.
+
+* Regenerate your access token from the refresh token
+** Ingredients
+We need:
+1. your client ID from the Google website
+2. your client secret from the Google website
+3. your refresh token from sasl-oauth2-tool
+4. Python libraries and script
+   
+** Ensure that the necessary Python libraries are installed
++ e.g.
+  #+begin_src bash
+    pip install httplib2 oauth2client
+  #+end_src
+  
+** Create the Python script
+1. Save the script below, nicked from [[https://stackoverflow.com/a/71202709][here]], as e.g. ~gmail-access-token.py~:
+  #+begin_src python
+    #!/bin/env python
+    # -*- coding: utf-8 -*-
+
+    """ gmail-access-token.py:  regenerate a GMail access token and print it to stdout.
+        2022-07-25, MvdS: initial version, taken from https://stackoverflow.com/a/71202709
+    """
+
+    import httplib2
+    from oauth2client import client, GOOGLE_TOKEN_URI
+
+    client_id     = "YOUR_CLIENT_ID_FROM_THE_GOOGLE_WEBSITE"
+    client_secret = "YOUR_CLIENT_SECRET_FROM_THE_GOOGLE_WEBSITE"
+    refresh_token = "YOUR_REFRESH_TOKEN_FROM_SASL-OAUTH2-TOOL"
+
+    # Set credentials:
+    creds = client.OAuth2Credentials(
+        access_token=None, 
+        client_id=client_id, 
+        client_secret=client_secret, 
+        refresh_token=refresh_token, 
+        token_expiry=None, 
+        token_uri=GOOGLE_TOKEN_URI,
+        user_agent="MBsync")
+    
+    # Refresh access token:
+    creds.refresh(httplib2.Http())
+
+    # Print new access token to stdout:
+    print(creds.access_token)
+  #+end_src
+
+2. Make the script executable
+   #+begin_src bash
+     chmod u+x gmail-access-token.py
+   #+end_src
+
+3. Run the script and ensure that it returns an access token
+
+* Tell MBsync to use the Python script to obtain the password
+1) Remember that we can use the *access token* as a *password*
+2) In =~/.mbsyncrc=, *remove* the line ~Pass~ and *add* a line ~PassCmd~
+   #+begin_src conf
+     ...
+     User <my name>@gmail.com
+     PassCmd "/PATH/TO/gmail-access-token.py"
+     ...
+   #+end_src
+3) Rerun ~mbsync~ - it should succeed as before (see the output above).
+
