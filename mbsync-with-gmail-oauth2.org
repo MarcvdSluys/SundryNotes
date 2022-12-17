@@ -124,6 +124,18 @@ If you haven't got one yet or would like to use a new one for this app
    + Client ID looks like ~<long number>-<long string>.apps.googleusercontent.com~
    + Client secret looks like ~<shorter string>--<longer string>~
 
+** Publish app
+Your configuration may work for a week only.  If you want it to last longer, you need to *publish* your app:
+1. Go to the [[https://console.cloud.google.com/apis/credentials/consent][OAUth consent screen]];
+2. Publishing status > Click Publish app
+   - (User type: external)
+3. Click Push to production
+   - You'll see a warning like /Your app will be available to any user with a Google Account./ This means that
+     you app can access any user's email (if they would agree), not the other way around;
+   - Publishing status is now *In production.*
+4. You may need to get a new refresh token (see below).
+
+
 * Generate a Google access token and refresh token using sasl-oauth2-tool
 ** Download ~sasl-xoauth2-tool~
 Download ~sasl-xoauth2-tool~ from https://github.com/tarickb/sasl-xoauth2 and make it executable
