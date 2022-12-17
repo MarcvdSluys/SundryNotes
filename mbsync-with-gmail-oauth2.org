@@ -51,6 +51,20 @@ the unsuccesful trials and errors).  The steps below worked on [2022-07-25 Mon] 
     <hangs>
   #+end_src
 + ~Ctrl-C~
++ Note: you may need to add ~AuthMechs XOAUTH2~ to your =~/.mbsyncrc=:
+  #+begin_src conf
+    IMAPAccount GMail
+    Host imap.gmail.com
+    User <my name>@gmail.com
+    AuthMechs XOAUTH2
+    ...
+  #+end_src
+    - especially if you get
+      #+begin_src bash
+        Authenticating with SASL mechanism PLAIN...
+        IMAP command 'AUTHENTICATE PLAIN <authdata>' returned an error: NO [AUTHENTICATIONFAILED] Invalid credentials (Failure)
+      #+end_src
+
   
 * Get Google OAuth 2.0 credentials
 + Note: the steps below seem to vary in order or exact name, perhaps because of some half wizard that tries to
@@ -150,6 +164,7 @@ Use the access token as password in =~/.mbsyncrc=:
     IMAPAccount GMail
     Host imap.gmail.com
     User <my name>@gmail.com
+    AuthMechs XOAUTH2
     Pass "<access token from sasl-xoauth2-tool>"
     ...
   #+end_src
@@ -245,6 +260,7 @@ We need:
    #+begin_src conf
      ...
      User <my name>@gmail.com
+     AuthMechs XOAUTH2
      PassCmd "/PATH/TO/gmail-access-token.py"
      ...
    #+end_src
