@@ -1,6 +1,16 @@
-#+title:  How to get MBsync to work with GMail and OAuth2
+#+title:  How to get MBsync to work with GMail and OAuth2 or an App password
 #+date:   [2022-07-25 Mon]
 
+* Easier solution: app password (2025-02-23)
+1) Go to https://myaccount.google.com/apppasswords
+2) Log in
+3) Create a new app password
+4) Get 16 characters (4x4), remove the three spaces, save wherever you store your plain passwords
+5) In ~.mbsyncrc~:
+   1. keep/go back to ~PassCmd "cat ..."~, or whatever you use to pass a plain password
+   2. comment out  # AuthMechs XOAUTH2
+
+* Intro
 Since June 2022, OAuth2 is required to access GMail through [[http://isync.sourceforge.net/][MBsync]].  Here is how I achieved that (leaving out
 the unsuccesful trials and errors).  The steps below worked on [2022-07-25 Mon] and are as follows:
 
